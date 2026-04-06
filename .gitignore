@@ -1,0 +1,34 @@
+# node_modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AI Agents and Tools Configuration (Exclude as requested by the user)
+.gemini/
+.claude/
+.agents/
+.agent/
+_agents/
+_agent/
+skills/
+.skills/
+skills-lock.json
+
+# Build
+# dist/
+build/
+out/
+.next/
+
+# Logs and env
+*.log
+.env*
+
+# AI Prompt (Excluded as requested)
+prompt_para_claude.md

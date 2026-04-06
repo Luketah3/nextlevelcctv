@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.nextlevelcctv.com.ar/sitemap.xml

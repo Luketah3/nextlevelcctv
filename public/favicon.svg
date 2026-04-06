@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="32" fill="#13131A" />
+    <path d="M32 8C32 8 12 18 12 32C12 46 24 58 32 58C40 58 52 46 52 32C52 18 32 8 32 8Z" fill="#182D2E" />
+    <path d="M32 11C32 11 14 20 14 33C14 44 25 55 32 55C39 55 50 44 50 33C50 20 32 11 32 11Z" fill="#142B29" />
+    <text x="32" y="38" font-family="sans-serif" font-weight="900" font-size="16" fill="#3dd1cc" text-anchor="middle">NL</text>
+</svg>

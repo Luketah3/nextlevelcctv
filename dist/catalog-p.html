@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Next Level CCTV | Tu Seguridad al próximo nivel</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#95d1d6",
+              "surface-bright": "#39393b",
+              "error": "#ffb4ab",
+              "surface-tint": "#00dbe7",
+              "background": "#08090c",
+              "on-surface-variant": "#b0b8d0",
+              "inverse-on-surface": "#313032",
+              "primary": "#ffffff",
+              "surface-variant": "#353437",
+              "on-primary-fixed": "#002022",
+              "on-primary-container": "#006a71",
+              "on-tertiary-container": "#725e00",
+              "primary-container": "#3dd1cc",
+              "surface-container": "#151821",
+              "secondary": "#95d1d6",
+              "secondary-fixed": "#b1edf2",
+              "on-error-container": "#ffdad6",
+              "on-primary": "#00363a",
+              "on-secondary-container": "#87c2c7",
+              "tertiary-fixed": "#ffe173",
+              "on-secondary-fixed-variant": "#064f53",
+              "on-error": "#690005",
+              "on-tertiary-fixed": "#221b00",
+              "error-container": "#93000a",
+              "surface-container-lowest": "#08090c",
+              "tertiary": "#fff6e4",
+              "primary-fixed-dim": "#10b981",
+              "on-tertiary-fixed-variant": "#554500",
+              "outline": "#849495",
+              "surface-container-high": "#1a1d27",
+              "surface": "#08090c",
+              "inverse-primary": "#00696f",
+              "primary-fixed": "#74f5ff",
+              "on-primary-fixed-variant": "#004f54",
+              "secondary-container": "#0b5156",
+              "tertiary-container": "#fed83a",
+              "on-background": "#d4d9e8",
+              "surface-container-highest": "#2d3344",
+              "surface-container-low": "#0f1117",
+              "on-surface": "#d4d9e8",
+              "tertiary-fixed-dim": "#e8c423",
+              "outline-variant": "#3a494b",
+              "inverse-surface": "#e5e1e4",
+              "on-tertiary": "#3b2f00",
+              "surface-dim": "#08090c",
+              "on-secondary-fixed": "#002022",
+              "on-secondary": "#00363a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-sm:hover {
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.6);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .glass-panel {
+            background: rgba(28, 27, 29, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 bg-[#0f1117]/80 backdrop-blur-xl bg-gradient-to-b from-[#0f1117] to-transparent shadow-[0_20px_40px_rgba(61,209,204,0.04)]">
+<div class="flex justify-between items-center px-8 h-20 w-full max-w-none">
+<a href="/">
+  <img src="/logonuevo.png" alt="Next Level CCTV" class="h-12 md:h-14 rounded-full hover:shadow-[0_0_12px_rgba(61,209,204,0.5)] transition-all duration-300" />
+</a>
+<div class="hidden md:flex items-center gap-8 font-headline tracking-tight text-sm uppercase">
+<a class="text-[#3dd1cc] border-b-2 border-[#3dd1cc] pb-1" href="#">Catálogo</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-[#3dd1cc] hover:glow-sm transition-all active:scale-95 duration-200" onclick="toggleCart()">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-primary-container text-on-primary-fixed text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full" id="cart-counter">0</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 px-8 overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-container blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto flex flex-col items-start gap-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-container text-[10px] font-bold tracking-[0.2em] uppercase">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                Inteligencia de Vigilancia Activa
+            </div>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter text-primary leading-none max-w-3xl">
+                ASEGURA TU <br/> <span class="text-primary-container">PERÍMETRO</span> CON PRECISIÓN.
+            </h1>
+<p class="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+                Seguridad de grado militar con análisis impulsado por IA. Explora nuestro catálogo de hardware de seguridad de próxima generación diseñado para el entorno moderno.
+            </p>
+</div>
+</header>
+<!-- Main Content Cluster -->
+<main class="flex-grow px-8 pb-20">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Filter Hub -->
+<section class="flex flex-col md:flex-row justify-between items-end gap-6 flex-wrap">
+<div class="space-y-4 w-full md:w-auto">
+<label class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Categorías</label>
+<div class="relative group">
+<select class="appearance-none bg-surface-container-low border-none text-on-surface py-3 px-6 pr-12 rounded-lg font-headline text-sm tracking-wide focus:ring-1 focus:ring-primary-container w-full md:w-64 transition-all cursor-pointer" id="category-filter">
+<option value="all">TODAS LAS CATEGORÍAS</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+</div><div class="space-y-4 w-full md:w-80">
+<label class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Búsqueda de Producto</label>
+<div class="relative flex gap-2 w-full">
+<div class="relative group flex-grow">
+<input class="bg-surface-container-low border-none text-on-surface py-3 pl-12 pr-6 rounded-lg font-headline text-sm tracking-wide focus:ring-1 focus:ring-primary-container w-full transition-all outline-none placeholder:text-slate-600 uppercase" id="search-input" placeholder="BUSCAR PRODUCTO..." type="text" onkeypress="if(event.key === 'Enter') applyFilters()"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 group-focus-within:text-primary-container transition-colors">search</span>
+</div>
+<button class="flex items-center justify-center px-6 py-3 bg-primary-container text-on-primary-fixed rounded-lg font-headline text-sm font-bold tracking-widest hover:shadow-[0_0_15px_rgba(61,209,204,0.4)] transition-all uppercase active:scale-95" onclick="applyFilters()">Buscar</button>
+</div><button class="mt-4 md:mt-0 flex items-center justify-center gap-2 px-6 py-3 bg-primary-container/10 border border-primary-container/30 text-primary-container rounded-lg font-headline text-sm font-bold tracking-widest hover:bg-primary-container/20 transition-all uppercase whitespace-nowrap active:scale-95" onclick="clearFilters()">
+<span class="material-symbols-outlined text-sm">filter_alt_off</span>
+  Limpiar Filtros
+</button>
+</div>
+<div class="hidden md:block text-right">
+<p class="text-[10px] font-bold tracking-[0.2em] text-primary-container uppercase">Estado Operativo</p>
+<p class="text-sm font-headline text-slate-400">Obteniendo Datos...</p>
+</div>
+</section>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-8" id="product-grid">
+<!-- Skeleton Loader -->
+<div class="animate-pulse bg-surface-container-low aspect-square md:h-96 rounded-xl"></div>
+<div class="animate-pulse bg-surface-container-low aspect-square md:h-96 rounded-xl"></div>
+<div class="animate-pulse bg-surface-container-low aspect-square md:h-96 rounded-xl"></div>
+<div class="animate-pulse bg-surface-container-low aspect-square md:h-96 rounded-xl"></div>
+</div>
+</div>
+</main>
+<!-- Cart Drawer (Glassmorphism) -->
+<div class="fixed inset-y-0 right-0 w-full md:w-[450px] z-[60] glass-panel border-l border-outline-variant/20 transform translate-x-full transition-transform duration-500 flex flex-col" id="cart-drawer">
+<div class="p-8 flex justify-between items-center border-b border-outline-variant/10">
+<div>
+<h2 class="font-headline text-2xl font-bold text-primary tracking-tight">CARRITO DE COMPRAS</h2>
+<p class="text-[10px] text-slate-500 tracking-[0.1em]">TRANSACCIÓN ENCRIPTADA LISTA</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors" onclick="toggleCart()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="flex-grow overflow-y-auto p-8 space-y-6 hide-scrollbar" id="cart-items">
+<!-- Items injected here -->
+<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-4">
+<span class="material-symbols-outlined text-4xl" data-icon="inventory_2">inventory_2</span>
+<p class="font-headline text-sm uppercase tracking-widest">Carrito Vacío</p>
+</div>
+</div>
+<div class="p-8 bg-surface-container-lowest border-t border-outline-variant/10 space-y-6">
+<div class="flex justify-between items-end">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total</span>
+<span class="font-headline text-3xl font-bold text-primary-container" id="cart-total">$0.00</span>
+</div>
+<button class="w-full py-4 bg-gradient-to-r from-primary-fixed-dim to-primary-container text-on-primary-fixed font-headline font-bold uppercase tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(61,209,204,0.3)] transition-all flex items-center justify-center gap-2" onclick="sendOrder()">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+                Enviar Pedido por WhatsApp
+            </button>
+</div>
+</div>
+<!-- Footer Shell -->
+<footer class="w-full py-12 px-8 mt-auto bg-[#08090c] border-t border-[#3a494b]/10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 w-full">
+<div class="font-inter text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                © 2024 NEXT LEVEL CCTV. ASEGURADO POR SENTINEL.
+            </div>
+<div class="flex gap-8">
+<a class="font-inter text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-[#3dd1cc] transition-colors" href="#">Política de Privacidad</a>
+<a class="font-inter text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-[#3dd1cc] transition-colors" href="#">Términos y Condiciones</a>
+<a class="font-inter text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-[#3dd1cc] transition-colors" href="#">Portal de Desarrolladores</a>
+</div>
+</div>
+</footer>
+<!-- Overlay for Cart -->
+<div class="fixed inset-0 bg-background/60 backdrop-blur-sm z-[55] hidden opacity-0 transition-opacity duration-500" id="overlay" onclick="toggleCart()"></div>
+<script>
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/19ZnohOMMcmcAUcaC_Lmy14JHc2Y3jS7tnYeRaSKkebc/gviz/tq?tqx=out:csv&sheet=PRODUCTOS';
+        let products = [];
+        let cart = [];
+        let searchTerm = '';
+        let currentCategory = 'all';
+
+        // Función para corregir URLs de imagen (absolutas y HTTPS)
+        function fixImageUrl(url) {
+            if (!url || url.trim() === '') return null;
+            let cleanUrl = url.trim();
+            // Si es una URL relativa (ej. "/imagen.jpg"), la convertimos a absoluta
+            // (cambia la base por la que corresponda a tu servidor)
+            if (cleanUrl.startsWith('/')) {
+                cleanUrl = window.location.origin + cleanUrl;
+            }
+            // Forzar HTTPS si es HTTP
+            if (cleanUrl.startsWith('http://')) {
+                cleanUrl = cleanUrl.replace('http://', 'https://');
+            }
+            // Si no tiene protocolo, asumimos HTTPS (puede fallar, pero lo intentamos)
+            if (!cleanUrl.startsWith('http')) {
+                cleanUrl = 'https://' + cleanUrl;
+            }
+            return cleanUrl;
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.split(/\r?\n/);
+            const result = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const row = lines[i];
+                if (!row.trim()) continue;
+
+                const values = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let j = 0; j < row.length; j++) {
+                    const char = row[j];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        values.push(current.trim().replace(/^"|"$/g, ''));
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                values.push(current.trim().replace(/^"|"$/g, ''));
+
+                if (values.length > 5) {
+                    result.push({
+                        "Producto": values[0] || '',
+                        "Imagen": values[7] || '',
+                        "Categoria": values[8] || '',
+                        "Activo": values[9] || '',
+                        "Precio de venta": values[10] || ''
+                    });
+                }
+            }
+            return result;
+        }
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const csvText = await response.text();
+                const rawData = parseCSV(csvText);
+                
+                products = rawData.filter(p => p.Activo.toLowerCase() === "si");
+
+                renderProducts(products);
+                updateCategories(products);
+                setupSearch();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('product-grid').innerHTML = `
+                    <div class="col-span-full py-20 text-center">
+<span class="material-symbols-outlined text-error text-5xl mb-4">error</span>
+<p class="font-headline text-lg text-error uppercase tracking-widest">Conexión con el Servidor Interrumpida</p>
+<button class="mt-4 text-primary-container text-xs underline uppercase font-bold tracking-widest" onclick="location.reload()">Reintentar Conexión</button>
+</div>
+                `;
+            }
+        }
+
+        function applyFilters() {
+            const filtered = products.filter(p => {
+                const matchesCategory = currentCategory === 'all' || p.Categoria === currentCategory;
+                const matchesSearch = p.Producto.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+            renderProducts(filtered);
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchTerm = e.target.value;
+                    applyFilters();
+                });
+            }
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-20 text-slate-500 uppercase tracking-widest">No se encontraron productos correspondientes a la búsqueda.</div>';
+                return;
+            }
+            
+            grid.innerHTML = items.map(p => {
+                const priceStr = p["Precio de venta"].toString().replace(/[^0-9]/g, "");
+                const price = parseFloat(priceStr) || 0;
+                let rawImage = p.Imagen || '';
+                const fixedImage = fixImageUrl(rawImage);
+                const defaultImage = 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?q=80&w=800&auto=format&fit=crop';
+                const finalImage = fixedImage || defaultImage;
+
+                // Depuración: ver en consola qué URL se está intentando
+                console.log(`Imagen para ${p.Producto}: ${finalImage}`);
+
+                return `
+                <div class="group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:bg-surface-container-high relative flex flex-col border border-white/5 hover:border-primary-container/30">
+<div class="aspect-square relative overflow-hidden bg-surface-container-lowest">
+<img alt="${p.Producto}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" 
+     src="${finalImage}" 
+     onerror="this.onerror=null; this.src='${defaultImage}';">
+<div class="absolute top-4 left-4">
+<span class="px-2 py-1 bg-background/80 backdrop-blur-md text-[9px] font-bold text-primary-container uppercase tracking-widest rounded border border-primary-container/20">
+                                ${p.Categoria || 'SIN CATEGORÍA'}
+                            </span>
+</div>
+</div>
+<div class="p-3 md:p-6 flex flex-col flex-grow gap-3 md:gap-4">
+<div class="space-y-1">
+<h3 class="font-headline text-sm md:text-lg font-bold text-primary tracking-tight leading-tight line-clamp-2">${p.Producto}</h3>
+<!-- Cambio: "Protocolo" por "Tipo" -->
+<p class="text-[9px] md:text-[10px] text-slate-500 font-mono uppercase tracking-widest">Tipo: ${p.Categoria || 'Standard'}</p>
+</div>
+<div class="mt-auto flex justify-between items-center gap-2">
+<div class="flex flex-col flex-shrink">
+<span class="text-[8px] text-slate-500 uppercase tracking-tighter">Precio</span>
+<span class="text-base md:text-2xl font-headline font-bold text-primary-container">$${price.toLocaleString()}</span>
+</div>
+<button class="p-2 md:p-3 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-fixed rounded-lg transition-all active:scale-90 flex items-center justify-center flex-shrink-0 group/btn" onclick="addToCart('${p.Producto.replace(/'/g, '')}', ${price}, '${finalImage}')">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-widest hidden group-hover/btn:block">Agregar</span>
+</button>
+</div>
+</div>
+</div>
+            `}).join('');
+        }
+
+        function updateCategories(items) {
+            const select = document.getElementById('category-filter');
+            while (select.options.length > 1) select.remove(1);
+            
+            const categories = [...new Set(items.map(p => p.Categoria).filter(Boolean))].sort();
+            
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat.toUpperCase();
+                select.appendChild(opt);
+            });
+
+            select.onchange = (e) => {
+                currentCategory = e.target.value;
+                applyFilters();
+            };
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('overlay');
+            const isOpen = drawer.classList.contains('translate-x-0');
+
+            if (isOpen) {
+                drawer.classList.remove('translate-x-0');
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+                overlay.classList.remove('opacity-100');
+            } else {
+                drawer.classList.add('translate-x-0');
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.add('opacity-100'), 10);
+            }
+        }
+
+        function addToCart(name, price, img) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ name, price, img, qty: 1 });
+            }
+            updateCartUI();
+            
+            const counter = document.getElementById('cart-counter');
+            counter.classList.add('scale-125');
+            setTimeout(() => counter.classList.remove('scale-125'), 200);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const counter = document.getElementById('cart-counter');
+            const totalEl = document.getElementById('cart-total');
+            
+            counter.textContent = cart.reduce((acc, item) => acc + item.qty, 0);
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-slate-500 gap-4">
+<span class="material-symbols-outlined text-4xl">inventory_2</span>
+<p class="font-headline text-sm uppercase tracking-widest">Carrito Vacío</p>
+</div>
+                `;
+                totalEl.textContent = '$0.00';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price * item.qty;
+                return `
+                    <div class="flex gap-4 group">
+<div class="w-16 h-16 bg-surface-container-lowest rounded overflow-hidden flex-shrink-0">
+<img alt="${item.name}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" src="${item.img}"/>
+</div>
+<div class="flex-grow space-y-1">
+<h4 class="text-[10px] font-bold text-primary line-clamp-1 uppercase tracking-tighter">${item.name}</h4>
+<div class="flex items-center justify-between">
+<span class="text-xs text-primary-container font-mono">$${item.price.toLocaleString()}</span>
+<div class="flex items-center gap-3 bg-surface-container-lowest px-2 py-1 rounded">
+<button class="text-slate-500 hover:text-white" onclick="changeQty(${index}, -1)">-</button>
+<span class="text-[10px] font-bold text-white w-4 text-center">${item.qty}</span>
+<button class="text-slate-500 hover:text-white" onclick="changeQty(${index}, 1)">+</button>
+</div>
+</div>
+</div>
+<button class="text-slate-600 hover:text-error transition-colors" onclick="removeFromCart(${index})">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+                `;
+            }).join('');
+
+            totalEl.textContent = `$${total.toLocaleString()}`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function sendOrder() {
+            if (cart.length === 0) return;
+            
+            let message = "🛡️ *NEXT LEVEL CCTV - PEDIDO*\n\n";
+            let total = 0;
+            
+            cart.forEach(item => {
+                const sub = item.price * item.qty;
+                message += `▪️ *${item.name}*\n   Cant.: ${item.qty} x $${item.price.toLocaleString()} = *$${sub.toLocaleString()}*\n\n`;
+                total += sub;
+            });
+            
+            message += `──────────────\n`;
+            message += `💰 *TOTAL: $${total.toLocaleString()}*\n`;
+            message += `──────────────\n`;
+            message += `\n_Por favor, confirmar disponibilidad del pedido._`;
+            
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/+5491135686456?text=${encoded}`, '_blank');
+        }
+
+        fetchProducts();
+    </script>
+<script>
+function clearFilters() {
+    searchTerm = '';
+    currentCategory = 'all';
+    
+    const searchInput = document.getElementById('search-input');
+    const categoryFilter = document.getElementById('category-filter');
+    
+    if (searchInput) searchInput.value = '';
+    if (categoryFilter) categoryFilter.value = 'all';
+    
+    applyFilters();
+}
+</script>
+</body>
+</html>
