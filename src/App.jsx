@@ -91,18 +91,15 @@ const SERVICES = [
 ]
 
 const GALLERY = [
-  { src: "/img/IMG_20251208_131334.jpg", alt: "Centro de Monitoreo", tag: "Monitoreo", title: "Centro de Monitoreo", desc: "Sistema completo con DVR Dahua y monitoreo de 8 canales", wide: true },
-  { src: "/img/IMG_20251124_103935_HDR.jpg", alt: "Cámara Antivandálica", tag: "Protección", title: "Cámara Antivandálica", desc: "Jaula de seguridad para máxima protección del equipo" },
-  { src: "/img/IMG_20260204_091722.jpg", alt: "Baluns 4K", tag: "Tecnología", title: "Baluns 4K Extra Speed", desc: "Transmisión de video sin pérdida" },
-  { src: "/img/IMG_20260225_151241_972.jpg", alt: "Domo Dahua", tag: "Cámaras", title: "Domo Dahua HD", desc: "Cámara domo interior de alta definición" },
-  { src: "/img/IMG_20260204_200331.jpg", alt: "Seguridad Comercial", tag: "Comercio", title: "Seguridad Comercial", desc: "Sistema de 4 cámaras para locales", wide: true },
-  { src: "/img/20260213143213.jpg", alt: "Vista en Vivo", tag: "Monitoreo", title: "Vista en Vivo HD", desc: "Monitoreo remoto del frente" },
-  { src: "/img/IMG_20260222_125348.jpg", alt: "Instalación Externa", tag: "Cámaras", title: "Instalación Externa", desc: "Cámara exterior con visión nocturna" },
-  { src: "/img/IMG_20260222_125318.jpg", alt: "DVR Profesional", tag: "Monitoreo", title: "DVR Profesional", desc: "Grabador digital de última generación" },
-  { src: "/img/WhatsApp Image 2026-03-06 at 18.13.28.jpeg", alt: "Sistema Completo", tag: "Integral", title: "Sistema Completo", desc: "Solución integral de seguridad", wide: true },
-  { src: "/img/IMG_20260216_114303.jpg", alt: "Configuración", tag: "Técnica", title: "Configuración", desc: "Setup profesional de cámaras" },
-  { src: "/img/IMG_20260222_124801.jpg", alt: "Cámara Fija", tag: "Cámaras", title: "Cámara Fija", desc: "Cámara bullet para exteriores" },
-  { src: "/img/IMG_20251124_104053_HDR.jpg", alt: "Panel Solar", tag: "Energía", title: "Panel Solar", desc: "Alimentación autónoma para cámaras", wide: true }
+  { src: "/img/IMG_20251208_131334.jpg", alt: "Centro de Monitoreo Dahua de 8 canales", tag: "Monitoreo", title: "Centro de Monitoreo", desc: "Sistema multiplex Dahua de 8 canales con vista en tiempo real" },
+  { src: "/img/IMG_20251124_103935_HDR.jpg", alt: "Cámara con jaula antivandálica", tag: "Protección", title: "Cámara Antivandálica", desc: "Jaula de seguridad metálica para máxima protección del equipo" },
+  { src: "/img/IMG_20260204_091722.jpg", alt: "Baluns 4K Extra Speed F909", tag: "Tecnología", title: "Baluns 4K Extra Speed", desc: "Transmisión de video sin pérdida sobre cable UTP" },
+  { src: "/img/IMG_20260225_151241_972.jpg", alt: "Cámara turret Dahua de techo", tag: "Cámaras", title: "Cámara Turret Dahua", desc: "Modelo eyeball para techos interiores en alta definición" },
+  { src: "/img/20260213143213.jpg", alt: "Vista en vivo del frente desde cámara Dahua IPC-HFW1235S", tag: "Monitoreo", title: "Vista en Vivo del Frente", desc: "Cámara Dahua IPC-HFW1235S monitoreando ingreso vehicular" },
+  { src: "/img/IMG_20260222_125348.jpg", alt: "Cámara bullet exterior antiintemperie", tag: "Cámaras", title: "Instalación Externa", desc: "Bullet exterior con visión nocturna y carcasa antiintemperie" },
+  { src: "/img/IMG_20260222_125318.jpg", alt: "Cámara discreta bajo escalera", tag: "Cámaras", title: "Cámara Discreta", desc: "Mini bullet posicionado para vigilancia de acceso lateral" },
+  { src: "/img/IMG_20260216_114303.jpg", alt: "Cobertura perimetral de patio exterior", tag: "Comercio", title: "Cobertura Perimetral", desc: "Vigilancia de espacio exterior y zona de carga del comercio" },
+  { src: "/img/IMG_20260222_124801.jpg", alt: "Fuente de alimentación y transformadores CCTV", tag: "Técnica", title: "Distribución Eléctrica", desc: "Fuente de alimentación y transformadores para sistema CCTV" },
 ]
 
 function Navbar({ scrolled }) {
@@ -208,9 +205,10 @@ function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.08)] border border-[rgba(61,209,204,0.15)] px-5 py-2 rounded-full mb-6 shadow-glow-soft"
+              className="inline-flex items-center gap-2.5 font-mono text-[0.65rem] md:text-[0.7rem] uppercase tracking-[0.22em] text-aqua-400 bg-[rgba(61,209,204,0.08)] border border-[rgba(61,209,204,0.2)] px-4 py-2 rounded-full mb-6 shadow-glow-soft backdrop-blur-sm"
             >
-              Seguridad Profesional
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+              Sistema Activo · Buenos Aires
             </motion.div>
 
             <motion.h1
@@ -269,10 +267,10 @@ function Hero() {
             { num: null, display: "24/7", label: "Soporte Continuo" }
           ].map((stat, i) => (
             <div key={i} className="flex flex-col items-center">
-              <span className="font-display text-[1.6rem] md:text-[2.4rem] font-bold text-aqua-400">
+              <span className="font-display text-[1.6rem] md:text-[2.4rem] font-bold text-aqua-400 leading-none">
                 {stat.num != null ? <AnimatedNumber value={stat.num} suffix={stat.suffix} /> : stat.display}
               </span>
-              <span className="text-xs text-gray-500 mt-1">{stat.label}</span>
+              <span className="font-mono text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 mt-2">{stat.label}</span>
             </div>
           ))}
         </motion.div>
@@ -300,51 +298,63 @@ function Servicios() {
       <div className="absolute top-0 left-0 right-0 h-1/2 bg-[radial-gradient(ellipse_at_50%_0%,rgba(61,209,204,0.12),transparent_60%)]" />
 
       <div className="max-w-[1240px] mx-auto px-5 relative">
-        <div className="text-center mb-16">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.12)] px-5 py-2 rounded-full mb-5">
-            Lo Que Hacemos
-          </span>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.2rem] font-bold text-gray-100 mb-4">
-            Nuestros <span className="text-gradient">Servicios</span>
-          </motion.h2>
-          <p className="text-gray-400 max-w-[580px] mx-auto leading-relaxed">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div className="flex-1 w-full">
+            <SectionLabel label="SERVICIOS_TÉCNICOS" status="OPERATIVO" />
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.4rem] font-bold text-gray-100 leading-[1.05] tracking-tight">
+              Nuestros <span className="text-gradient">Servicios</span>
+            </motion.h2>
+          </div>
+          <p className="text-gray-400 max-w-[420px] leading-relaxed text-sm md:text-base">
             Soluciones integrales en seguridad y tecnología para proteger lo que más importa.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {SERVICES.map((service, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`relative bg-gradient-to-br from-[rgba(26,30,42,0.7)] to-[rgba(15,17,23,0.85)] border border-white/[0.04] rounded-2xl p-8 transition-all hover:-translate-y-2 hover:border-[rgba(61,209,204,0.1)] hover:shadow-glow-card ${service.featured ? 'md:col-span-2 border-[rgba(61,209,204,0.08)] bg-gradient-to-br from-[rgba(61,209,204,0.04)] to-[rgba(15,17,23,0.9)]' : ''}`}
-            >
-              <div className="w-13 h-13 flex items-center justify-center bg-[rgba(61,209,204,0.08)] border border-[rgba(61,209,204,0.1)] rounded-xl mb-6 transition-transform hover:scale-110">
-                {(() => { const Icon = SERVICE_ICONS[i] || CameraIcon; return <Icon /> })()}
-              </div>
+          {SERVICES.map((service, i) => {
+            const num = String(i + 1).padStart(2, '0')
+            const total = String(SERVICES.length).padStart(2, '0')
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className={`group relative bg-gradient-to-br from-[rgba(26,30,42,0.7)] to-[rgba(15,17,23,0.85)] border border-white/[0.04] rounded-2xl p-8 transition-all hover:-translate-y-2 hover:border-[rgba(61,209,204,0.15)] hover:shadow-glow-card ${service.featured ? 'md:col-span-2 border-[rgba(61,209,204,0.08)] bg-gradient-to-br from-[rgba(61,209,204,0.04)] to-[rgba(15,17,23,0.9)]' : ''}`}
+              >
+                <CornerBrackets />
 
-              {service.featured && (
-                <span className="inline-block text-[0.65rem] font-bold uppercase tracking-[0.12em] text-emerald-400 bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.12)] px-3 py-1 rounded-md mb-3">
-                  Servicio Principal
-                </span>
-              )}
+                <div className="flex items-start justify-between gap-4 mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center bg-[rgba(61,209,204,0.08)] border border-[rgba(61,209,204,0.15)] rounded-xl transition-transform group-hover:scale-110 group-hover:rotate-3">
+                    {(() => { const Icon = SERVICE_ICONS[i] || CameraIcon; return <Icon /> })()}
+                  </div>
+                  <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-gray-600 group-hover:text-aqua-400/70 transition-colors">
+                    {num} <span className="text-gray-700">/ {total}</span>
+                  </span>
+                </div>
 
-              <h3 className="font-display text-lg font-semibold text-gray-100 mb-3">{service.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed mb-5">{service.desc}</p>
+                {service.featured && (
+                  <span className="inline-flex items-center gap-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-emerald-400 bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.18)] px-2.5 py-1 rounded-md mb-3 font-mono">
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                    SERVICIO PRINCIPAL
+                  </span>
+                )}
 
-              <ul className="flex flex-col gap-2">
-                {service.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
-                    <span className="w-1.5 h-1.5 bg-aqua-400 rounded-full shadow-[0_0_6px_rgba(61,209,204,0.4)]" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+                <h3 className="font-display text-lg font-semibold text-gray-100 mb-3">{service.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed mb-5">{service.desc}</p>
+
+                <ul className="flex flex-col gap-2">
+                  {service.features.map((f, j) => (
+                    <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                      <span className="w-1.5 h-1.5 bg-aqua-400 rounded-full shadow-[0_0_6px_rgba(61,209,204,0.4)]" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -360,13 +370,29 @@ const BENTO_PATTERN = [
   'md:row-span-2',
   'col-span-2',
   '',
-  'md:row-span-2',
-  '',
-  'col-span-2 md:row-span-2',
-  '',
   '',
   'col-span-2',
+  '',
 ]
+
+function SectionLabel({ label, status, statusTone = 'emerald' }) {
+  const statusColor = statusTone === 'aqua'
+    ? 'text-aqua-400 shadow-[0_0_8px_rgba(61,209,204,0.7)] bg-aqua-400'
+    : 'text-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)] bg-emerald-400'
+  const statusText = statusTone === 'aqua' ? 'text-aqua-400/90' : 'text-emerald-400/90'
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-aqua-400/70 shrink-0">/ {label}</span>
+      <span className="h-px flex-1 bg-gradient-to-r from-aqua-400/30 to-transparent" />
+      {status && (
+        <span className={`flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.18em] ${statusText} shrink-0`}>
+          <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${statusColor}`} />
+          {status}
+        </span>
+      )}
+    </div>
+  )
+}
 
 function CornerBrackets({ tone = 'aqua' }) {
   const c = tone === 'aqua' ? 'border-aqua-400/40' : 'border-white/30'
@@ -452,15 +478,8 @@ function Trabajos() {
 
       <div className="max-w-[1400px] mx-auto px-5 relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-aqua-400/70">/ ARCHIVO_VISUAL</span>
-              <span className="h-px flex-1 bg-gradient-to-r from-aqua-400/30 to-transparent" />
-              <span className="flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-emerald-400/90">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
-                LIVE
-              </span>
-            </div>
+          <div className="flex-1 w-full">
+            <SectionLabel label="ARCHIVO_VISUAL" status="LIVE" />
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2.2rem] md:text-[3.4rem] font-bold text-gray-100 leading-[1.05] tracking-tight">
               Nuestros <span className="text-gradient">Trabajos</span>
             </motion.h2>
@@ -718,10 +737,8 @@ function Nosotros() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.12)] px-5 py-2 rounded-full mb-5">
-              Por Qué Elegirnos
-            </span>
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.2rem] font-bold text-gray-100 mb-4">
+            <SectionLabel label="POR_QUÉ_ELEGIRNOS" status="VERIFICADO" />
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.4rem] font-bold text-gray-100 leading-[1.05] tracking-tight mb-4">
               Seguridad que<br />
               <span className="text-gradient">genera confianza</span>
             </motion.h2>
@@ -840,24 +857,24 @@ function Contacto() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent" />
 
       <div className="max-w-[1240px] mx-auto px-5">
-        <div className="text-center mb-16">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.12)] px-5 py-2 rounded-full mb-5">
-            Contacto
-          </span>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.2rem] font-bold text-gray-100 mb-4">
-            Hablemos de tu <span className="text-gradient">Seguridad</span>
-          </motion.h2>
-          <p className="text-gray-400 max-w-[580px] mx-auto leading-relaxed">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div className="flex-1 w-full">
+            <SectionLabel label="CONTACTO_DIRECTO" status="ONLINE" />
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.4rem] font-bold text-gray-100 leading-[1.05] tracking-tight">
+              Hablemos de tu <span className="text-gradient">Seguridad</span>
+            </motion.h2>
+          </div>
+          <p className="text-gray-400 max-w-[420px] leading-relaxed text-sm md:text-base">
             Estamos listos para ayudarte. Escribinos o llamanos para una consulta sin compromiso.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-10">
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4 self-start">
             {[
-              { icon: "📞", title: "Teléfono / WhatsApp", value: "+54 9 11 3568-6456", link: WA_LINK },
-              { icon: "✉️", title: "Email", value: "nextlevelcctv1@gmail.com", link: "mailto:nextlevelcctv1@gmail.com" },
-              { icon: "🕐", title: "Horario de Atención", value: "Lunes a Viernes: 10:00 - 20:00", span: true }
+              { icon: "📞", label: "CANAL_01", title: "Teléfono / WhatsApp", value: "+54 9 11 3568-6456", link: WA_LINK },
+              { icon: "✉️", label: "CANAL_02", title: "Email", value: "nextlevelcctv1@gmail.com", link: "mailto:nextlevelcctv1@gmail.com" },
+              { icon: "🕐", label: "HORARIO", title: "Atención", value: "Lunes a Viernes · 10:00 — 20:00", span: true }
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -865,14 +882,18 @@ function Contacto() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`glass rounded-2xl p-6 transition-all hover:-translate-y-2 hover:shadow-glow-strong ${item.span ? 'sm:col-span-2' : ''}`}
+                className={`relative glass rounded-2xl p-6 transition-all hover:-translate-y-2 hover:shadow-glow-strong hover:border-aqua-400/20 ${item.span ? 'sm:col-span-2' : ''}`}
               >
-                <div className="w-11 h-11 flex items-center justify-center bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.1)] rounded-xl mb-4 text-xl">
-                  {item.icon}
+                <CornerBrackets />
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-11 h-11 flex items-center justify-center bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.15)] rounded-xl text-xl">
+                    {item.icon}
+                  </div>
+                  <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-aqua-400/60">{item.label}</span>
                 </div>
                 <h4 className="font-display text-sm font-semibold text-gray-100 mb-1">{item.title}</h4>
                 {item.link ? (
-                  <a href={item.link} className={`text-sm ${item.highlight ? 'text-[#25D366]' : 'text-gray-400'} hover:text-aqua-400 transition-colors`}>
+                  <a href={item.link} className="text-sm text-gray-400 hover:text-aqua-400 transition-colors break-all">
                     {item.value}
                   </a>
                 ) : (
