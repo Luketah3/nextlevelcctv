@@ -92,11 +92,17 @@ const SERVICES = [
 
 const GALLERY = [
   { src: "/img/IMG_20251208_131334.jpg", alt: "Centro de Monitoreo", tag: "Monitoreo", title: "Centro de Monitoreo", desc: "Sistema completo con DVR Dahua y monitoreo de 8 canales", wide: true },
-  { src: "/img/IMG_20251124_103935_HDR.jpg", alt: "Cámara Antivandálica", tag: "Proteccion", title: "Cámara Antivandálica", desc: "Jaula de seguridad para máxima protección del equipo" },
+  { src: "/img/IMG_20251124_103935_HDR.jpg", alt: "Cámara Antivandálica", tag: "Protección", title: "Cámara Antivandálica", desc: "Jaula de seguridad para máxima protección del equipo" },
   { src: "/img/IMG_20260204_091722.jpg", alt: "Baluns 4K", tag: "Tecnología", title: "Baluns 4K Extra Speed", desc: "Transmisión de video sin pérdida" },
   { src: "/img/IMG_20260225_151241_972.jpg", alt: "Domo Dahua", tag: "Cámaras", title: "Domo Dahua HD", desc: "Cámara domo interior de alta definición" },
   { src: "/img/IMG_20260204_200331.jpg", alt: "Seguridad Comercial", tag: "Comercio", title: "Seguridad Comercial", desc: "Sistema de 4 cámaras para locales", wide: true },
-  { src: "/img/20260213143213.jpg", alt: "Vista en Vivo", tag: "Monitoreo", title: "Vista en Vivo HD", desc: "Monitoreo remoto del frente" }
+  { src: "/img/20260213143213.jpg", alt: "Vista en Vivo", tag: "Monitoreo", title: "Vista en Vivo HD", desc: "Monitoreo remoto del frente" },
+  { src: "/img/IMG_20260222_125348.jpg", alt: "Instalación Externa", tag: "Cámaras", title: "Instalación Externa", desc: "Cámara exterior con visión nocturna" },
+  { src: "/img/IMG_20260222_125318.jpg", alt: "DVR Profesional", tag: "Monitoreo", title: "DVR Profesional", desc: "Grabador digital de última generación" },
+  { src: "/img/WhatsApp Image 2026-03-06 at 18.13.28.jpeg", alt: "Sistema Completo", tag: "Integral", title: "Sistema Completo", desc: "Solución integral de seguridad", wide: true },
+  { src: "/img/IMG_20260216_114303.jpg", alt: "Configuración", tag: "Técnica", title: "Configuración", desc: "Setup profesional de cámaras" },
+  { src: "/img/IMG_20260222_124801.jpg", alt: "Cámara Fija", tag: "Cámaras", title: "Cámara Fija", desc: "Cámara bullet para exteriores" },
+  { src: "/img/IMG_20251124_104053_HDR.jpg", alt: "Panel Solar", tag: "Energía", title: "Panel Solar", desc: "Alimentación autónoma para cámaras", wide: true }
 ]
 
 function Navbar({ scrolled }) {
@@ -331,15 +337,47 @@ function Servicios() {
 
 function Trabajos() {
   const [lightbox, setLightbox] = useState(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const openLightbox = (item, index) => {
+    setLightbox(item)
+    setCurrentIndex(index)
+  }
+
+  const nextImage = (e) => {
+    e?.stopPropagation()
+    const next = (currentIndex + 1) % GALLERY.length
+    setCurrentIndex(next)
+    setLightbox(GALLERY[next])
+  }
+
+  const prevImage = (e) => {
+    e?.stopPropagation()
+    const prev = (currentIndex - 1 + GALLERY.length) % GALLERY.length
+    setCurrentIndex(prev)
+    setLightbox(GALLERY[prev])
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!lightbox) return
+      if (e.key === 'Escape') setLightbox(null)
+      if (e.key === 'ArrowRight') nextImage()
+      if (e.key === 'ArrowLeft') prevImage()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightbox, currentIndex])
 
   return (
-    <section id="trabajos" className="py-24 md:py-36 bg-gray-900 relative">
+    <section id="trabajos" className="py-24 md:py-36 bg-gray-900 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(61,209,204,0.03),transparent_50%)]" />
 
-      <div className="max-w-[1240px] mx-auto px-5">
+      <div className="max-w-[1400px] mx-auto px-5">
         <div className="text-center mb-16">
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.12)] px-5 py-2 rounded-full mb-5">
-            Resultados Reales
+            Portfolio
           </span>
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.2rem] font-bold text-gray-100 mb-4">
             Nuestros <span className="text-gradient">Trabajos</span>
@@ -349,33 +387,41 @@ function Trabajos() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[200px] md:auto-rows-[280px]">
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ staggerChildren: 0.05 }}
+        >
           {GALLERY.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              className={`relative rounded-2xl overflow-hidden cursor-pointer group ${item.wide ? 'md:col-span-2' : ''}`}
-              onClick={() => setLightbox(item)}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05, duration: 0.4 }}
+              className={`relative rounded-xl overflow-hidden cursor-pointer group ${item.wide ? 'md:col-span-2' : ''} ${i === 0 ? 'md:row-span-2' : ''}`}
+              onClick={() => openLightbox(item, i)}
             >
               <img
                 src={item.src}
                 alt={item.alt}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
-                width={600}
-                height={400}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c]/90 via-[#08090c]/30 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="inline-block text-[0.65rem] font-bold uppercase tracking-[0.12em] text-aqua-400 bg-[rgba(61,209,204,0.12)] px-3 py-1 rounded mb-2 w-fit">{item.tag}</span>
-                <h4 className="font-display text-lg text-gray-100 mb-1">{item.title}</h4>
-                <p className="text-sm text-gray-400">{item.desc}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <span className="inline-block text-[0.6rem] font-bold uppercase tracking-[0.15em] text-aqua-400 bg-[rgba(61,209,204,0.15)] px-2 py-1 rounded mb-2">{item.tag}</span>
+                <h4 className="font-display text-sm md:text-base text-gray-100 font-semibold">{item.title}</h4>
+                <p className="text-xs text-gray-400 mt-1 line-clamp-2">{item.desc}</p>
+              </div>
+              <div className="absolute top-3 right-3 w-8 h-8 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-0 group-hover:scale-100">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <AnimatePresence>
@@ -384,24 +430,53 @@ function Trabajos() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-[#08090c]/92 backdrop-blur-xl"
+            className="fixed inset-0 z-[2000] flex items-center justify-center bg-[#08090c]/95 backdrop-blur-xl"
             onClick={() => setLightbox(null)}
           >
+            <button
+              onClick={() => setLightbox(null)}
+              className="absolute top-6 right-6 w-12 h-12 bg-white/10 border border-white/20 rounded-full text-white flex items-center justify-center hover:bg-white/20 transition-all z-10"
+            >
+              ✕
+            </button>
+            
+            <button
+              onClick={prevImage}
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 border border-white/20 rounded-full text-white flex items-center justify-center hover:bg-white/20 transition-all z-10"
+            >
+              ←
+            </button>
+            
+            <button
+              onClick={nextImage}
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 border border-white/20 rounded-full text-white flex items-center justify-center hover:bg-white/20 transition-all z-10"
+            >
+              →
+            </button>
+
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="relative max-w-[90vw] max-h-[85vh]"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-[90vw] max-h-[85vh] flex flex-col items-center"
               onClick={e => e.stopPropagation()}
             >
-              <img src={lightbox.src} alt={lightbox.alt} className="max-w-[90vw] max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
-              <button
-                onClick={() => setLightbox(null)}
-                aria-label="Cerrar"
-                className="absolute -top-4 -right-4 w-10 h-10 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-white/20 transition-all"
+              <img 
+                src={lightbox.src} 
+                alt={lightbox.alt} 
+                className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl" 
+              />
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mt-4 text-center"
               >
-                ✕
-              </button>
+                <span className="inline-block text-[0.7rem] font-bold uppercase tracking-[0.15em] text-aqua-400 bg-[rgba(61,209,204,0.15)] px-3 py-1 rounded mb-2">{lightbox.tag}</span>
+                <h3 className="font-display text-xl text-gray-100 font-semibold">{lightbox.title}</h3>
+                <p className="text-sm text-gray-400 mt-1">{lightbox.desc}</p>
+                <p className="text-xs text-gray-600 mt-3">{currentIndex + 1} / {GALLERY.length}</p>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
