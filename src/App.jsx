@@ -127,7 +127,7 @@ function Navbar({ scrolled }) {
             </li>
           ))}
           <li>
-            <a href="#contacto" onClick={() => setMobileOpen(false)} className="bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-5 py-2 rounded-lg text-sm font-semibold hover:shadow-glow-strong transition-all">
+            <a href="#contacto" onClick={() => setMobileOpen(false)} className="bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-5 py-2 rounded-2xl text-sm font-semibold hover:shadow-glow-strong transition-all">
               Contacto
             </a>
           </li>
@@ -220,14 +220,14 @@ function Hero() {
                 href={`${WA_LINK}?text=Hola!%20Quiero%20un%20presupuesto%20sin%20cargo`}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-2xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all"
               >
                 <WhatsAppIcon />
                 Presupuesto Sin Cargo
               </a>
               <a
                 href="#servicios"
-                className="inline-flex items-center px-8 py-4 rounded-xl border border-gray-700 text-gray-100 font-semibold hover:border-aqua-400 hover:text-aqua-400 transition-all"
+                className="inline-flex items-center px-8 py-4 rounded-2xl border border-gray-700 text-gray-100 font-semibold hover:border-aqua-400 hover:text-aqua-400 transition-all"
               >
                 Ver Servicios
               </a>
@@ -513,7 +513,7 @@ function CTABanner() {
             href={`${WA_LINK}?text=Hola!%20Quiero%20un%20presupuesto%20sin%20cargo`}
             target="_blank"
             rel="noopener"
-            className="relative z-10 inline-flex items-center gap-3 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all whitespace-nowrap"
+            className="relative z-10 inline-flex items-center gap-3 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-2xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all whitespace-nowrap"
           >
             <WhatsAppIcon />
             Consultar por WhatsApp
@@ -562,7 +562,7 @@ function Contacto() {
             {[
               { icon: "📞", title: "Teléfono / WhatsApp", value: "+54 9 11 3568-6456", link: WA_LINK },
               { icon: "✉️", title: "Email", value: "nextlevelcctv1@gmail.com", link: "mailto:nextlevelcctv1@gmail.com" },
-              { icon: "🕐", title: "Horario de Atención", value: "Lunes a Sábado: 8:00 - 20:00", span: true }
+              { icon: "🕐", title: "Horario de Atención", value: "Lunes a Viernes: 10:00 - 20:00", span: true }
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -621,7 +621,7 @@ function Contacto() {
               <textarea name="mensaje" rows="4" required placeholder=" " className="w-full px-4 py-4 bg-[rgba(8,9,12,0.4)] border border-white/[0.05] rounded-xl text-gray-100 outline-none focus:border-aqua-400 focus:shadow-[0_0_0_3px_rgba(61,209,204,0.08)] transition-all peer resize-none" />
               <label className="absolute top-4 left-4 text-sm text-gray-500 pointer-events-none transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-aqua-400 peer-focus:bg-[rgba(15,17,23,0.9)] peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:text-xs">Mensaje</label>
             </div>
-            <button type="submit" className="sm:col-span-2 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
+            <button type="submit" className="sm:col-span-2 bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 px-8 py-4 rounded-2xl font-semibold hover:shadow-glow-strong hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
               Enviar Consulta
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
@@ -710,9 +710,9 @@ function WhatsAppFloat() {
       whileTap={{ scale: 0.95 }}
       className="fixed bottom-8 right-8 z-[999] group"
     >
-      <span className="absolute inset-0 rounded-full bg-[#25D366]/20 animate-ping" />
-      <span className="relative w-[60px] h-[60px] bg-[#08090c] border-2 border-[#25D366] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(37,211,102,0.35)] group-hover:shadow-[0_4px_40px_rgba(37,211,102,0.5)] group-hover:border-[#2ee87a] transition-all">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366" className="group-hover:fill-[#2ee87a] transition-colors">
+      <span className="absolute inset-0 rounded-full bg-[#25D366]/10 animate-ping" />
+      <span className="relative w-[60px] h-[60px] bg-[#08090c] border-2 border-[#25D366] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(37,211,102,0.35)] group-hover:shadow-[0_4px_40px_rgba(37,211,102,0.5)] group-hover:border-[#30e87a] transition-all duration-300">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366" className="group-hover:fill-[#30e87a] transition-all duration-300">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
         </svg>
       </span>
