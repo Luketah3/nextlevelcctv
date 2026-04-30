@@ -353,12 +353,47 @@ function Servicios() {
 
 const GALLERY_TAGS = ['Todos', ...Array.from(new Set(GALLERY.map(g => g.tag)))]
 
+const BENTO_PATTERN = [
+  'col-span-2 row-span-2',
+  '',
+  '',
+  'md:row-span-2',
+  'col-span-2',
+  '',
+  'md:row-span-2',
+  '',
+  'col-span-2 md:row-span-2',
+  '',
+  '',
+  'col-span-2',
+]
+
+function CornerBrackets({ tone = 'aqua' }) {
+  const c = tone === 'aqua' ? 'border-aqua-400/40' : 'border-white/30'
+  return (
+    <>
+      <span className={`absolute top-1.5 left-1.5 w-3 h-3 border-t border-l ${c} pointer-events-none rounded-tl-sm`} />
+      <span className={`absolute top-1.5 right-1.5 w-3 h-3 border-t border-r ${c} pointer-events-none rounded-tr-sm`} />
+      <span className={`absolute bottom-1.5 left-1.5 w-3 h-3 border-b border-l ${c} pointer-events-none rounded-bl-sm`} />
+      <span className={`absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r ${c} pointer-events-none rounded-br-sm`} />
+    </>
+  )
+}
+
 function Trabajos() {
   const [lightbox, setLightbox] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [activeFilter, setActiveFilter] = useState('Todos')
+  const [imageLoaded, setImageLoaded] = useState({})
 
-  const filtered = activeFilter === 'Todos' ? GALLERY : GALLERY.filter(g => g.tag === activeFilter)
+  const filtered = activeFilter === 'Todos'
+    ? GALLERY
+    : GALLERY.filter(g => g.tag === activeFilter)
+
+  const tagCounts = GALLERY.reduce(
+    (acc, g) => ({ ...acc, [g.tag]: (acc[g.tag] || 0) + 1 }),
+    { Todos: GALLERY.length }
+  )
 
   const openLightbox = (item, index) => {
     setLightbox(item)
@@ -380,6 +415,18 @@ function Trabajos() {
   }
 
   useEffect(() => {
+    if (!lightbox) return
+    const next = filtered[(currentIndex + 1) % filtered.length]
+    const prev = filtered[(currentIndex - 1 + filtered.length) % filtered.length]
+    ;[next, prev].forEach(item => {
+      if (item) {
+        const img = new Image()
+        img.src = item.src
+      }
+    })
+  }, [lightbox, currentIndex, filtered])
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (!lightbox) return
       if (e.key === 'Escape') setLightbox(null)
@@ -391,86 +438,130 @@ function Trabajos() {
   }, [lightbox, currentIndex, filtered])
 
   useEffect(() => {
-    if (lightbox) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = lightbox ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [lightbox])
 
+  const lightboxCamId = lightbox ? String(GALLERY.indexOf(lightbox) + 1).padStart(2, '0') : ''
+
   return (
     <section id="trabajos" className="py-24 md:py-36 bg-gray-900 relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(61,209,204,0.03),transparent_50%)]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-aqua-400/30 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(61,209,204,0.04),transparent_50%),radial-gradient(ellipse_at_70%_80%,rgba(16,185,129,0.03),transparent_50%)]" />
+      <div className="absolute inset-0 opacity-[0.018] pointer-events-none [background:repeating-linear-gradient(0deg,#fff_0,#fff_1px,transparent_1px,transparent_3px)] motion-reduce:hidden" />
 
-      <div className="max-w-[1400px] mx-auto px-5">
-        <div className="text-center mb-10">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-aqua-400 bg-[rgba(61,209,204,0.06)] border border-[rgba(61,209,204,0.12)] px-5 py-2 rounded-full mb-5">
-            Portfolio
-          </span>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2rem] md:text-[3.2rem] font-bold text-gray-100 mb-4">
-            Nuestros <span className="text-gradient">Trabajos</span>
-          </motion.h2>
-          <p className="text-gray-400 max-w-[580px] mx-auto leading-relaxed">
+      <div className="max-w-[1400px] mx-auto px-5 relative">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-aqua-400/70">/ ARCHIVO_VISUAL</span>
+              <span className="h-px flex-1 bg-gradient-to-r from-aqua-400/30 to-transparent" />
+              <span className="flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-emerald-400/90">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                LIVE
+              </span>
+            </div>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="font-display text-[2.2rem] md:text-[3.4rem] font-bold text-gray-100 leading-[1.05] tracking-tight">
+              Nuestros <span className="text-gradient">Trabajos</span>
+            </motion.h2>
+          </div>
+          <p className="text-gray-400 max-w-[420px] leading-relaxed text-sm md:text-base">
             Cada instalación refleja nuestro compromiso con la calidad y la seguridad de nuestros clientes.
           </p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-2 mb-10"
-        >
-          {GALLERY_TAGS.map(tag => (
-            <button
-              key={tag}
-              onClick={() => { setActiveFilter(tag); setLightbox(null) }}
-              className={`text-xs font-semibold uppercase tracking-[0.1em] px-4 py-2 rounded-full border transition-all duration-200 ${
-                activeFilter === tag
-                  ? 'bg-gradient-to-r from-aqua-400 to-emerald-500 text-gray-950 border-transparent shadow-glow-soft'
-                  : 'text-gray-400 border-white/[0.08] hover:border-aqua-400/30 hover:text-aqua-400'
-              }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </motion.div>
+        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <span className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-gray-500 shrink-0 pr-2 hidden sm:inline">FILTRO</span>
+          {GALLERY_TAGS.map(tag => {
+            const isActive = activeFilter === tag
+            return (
+              <button
+                key={tag}
+                onClick={() => setActiveFilter(tag)}
+                className={`group relative shrink-0 inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.14em] px-3.5 py-2 rounded-md border transition-all duration-200 ${
+                  isActive
+                    ? 'bg-aqua-400 text-gray-950 border-aqua-400 shadow-[0_0_24px_rgba(61,209,204,0.35)]'
+                    : 'text-gray-400 border-white/[0.08] bg-white/[0.02] hover:border-aqua-400/40 hover:text-aqua-400 hover:bg-aqua-400/5'
+                }`}
+              >
+                <span className={`w-1 h-1 rounded-full ${isActive ? 'bg-gray-950' : 'bg-aqua-400/40 group-hover:bg-aqua-400'}`} />
+                {tag}
+                <span className={`text-[0.58rem] font-bold ${isActive ? 'text-gray-950/70' : 'text-gray-600'}`}>{tagCounts[tag] || 0}</span>
+              </button>
+            )
+          })}
+        </div>
 
         <motion.div
           key={activeFilter}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
+          className="grid grid-cols-2 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[180px] gap-3 md:gap-4 grid-flow-dense"
         >
-          {filtered.map((item, i) => (
-            <motion.div
-              key={item.src}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.04, duration: 0.35 }}
-              className={`relative rounded-xl overflow-hidden cursor-pointer group aspect-square ${item.wide && activeFilter === 'Todos' ? 'md:col-span-2 aspect-video' : ''}`}
-              onClick={() => openLightbox(item, i)}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c]/90 via-[#08090c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <span className="inline-block text-[0.58rem] font-bold uppercase tracking-[0.15em] text-aqua-400 bg-[rgba(61,209,204,0.18)] backdrop-blur-sm px-2 py-0.5 rounded mb-1.5">{item.tag}</span>
-                <h4 className="font-display text-sm md:text-base text-gray-100 font-semibold leading-tight">{item.title}</h4>
-                <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{item.desc}</p>
-              </div>
-              <div className="absolute top-2.5 right-2.5 w-8 h-8 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 scale-75 group-hover:scale-100 border border-white/10">
-                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
-              </div>
-            </motion.div>
-          ))}
+          {filtered.map((item, i) => {
+            const span = activeFilter === 'Todos' ? BENTO_PATTERN[i % BENTO_PATTERN.length] : ''
+            const camId = String(GALLERY.indexOf(item) + 1).padStart(2, '0')
+            const loaded = imageLoaded[item.src]
+            return (
+              <motion.button
+                key={item.src}
+                type="button"
+                aria-label={`Ver ${item.title}`}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.035, duration: 0.4 }}
+                onClick={() => openLightbox(item, i)}
+                className={`relative rounded-xl overflow-hidden cursor-pointer group bg-gray-950 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aqua-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 ${span}`}
+              >
+                {!loaded && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 animate-pulse" />
+                )}
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  decoding="async"
+                  onLoad={() => setImageLoaded(prev => ({ ...prev, [item.src]: true }))}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+                />
+
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none [background:repeating-linear-gradient(0deg,rgba(61,209,204,0.06)_0,rgba(61,209,204,0.06)_1px,transparent_1px,transparent_3px)] motion-reduce:hidden" />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08090c]/95 via-[#08090c]/15 to-[#08090c]/30 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+
+                <CornerBrackets />
+
+                <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2 pointer-events-none">
+                  <span className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-aqua-400/90 bg-black/45 backdrop-blur-sm px-2 py-0.5 rounded-md border border-aqua-400/25">
+                    CAM-{camId}
+                  </span>
+                  <span className="flex items-center gap-1 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-red-400 bg-black/45 backdrop-blur-sm px-1.5 py-0.5 rounded-md border border-red-400/25">
+                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
+                    REC
+                  </span>
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <span className="font-mono text-[0.55rem] uppercase tracking-[0.22em] text-aqua-400">{item.tag}</span>
+                    <span className="h-px flex-1 bg-aqua-400/30" />
+                    <span className="font-mono text-[0.55rem] tracking-[0.12em] text-gray-500">HD</span>
+                  </div>
+                  <h4 className="font-display text-sm md:text-base text-gray-100 font-semibold leading-tight">{item.title}</h4>
+                  <p className="text-xs text-gray-400 mt-0.5 line-clamp-1 max-h-0 group-hover:max-h-10 opacity-0 group-hover:opacity-100 transition-all duration-300">{item.desc}</p>
+                </div>
+
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-12 h-12 rounded-full bg-aqua-400/10 backdrop-blur-md border border-aqua-400/40 flex items-center justify-center scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                    <svg className="w-5 h-5 text-aqua-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                  </div>
+                </div>
+              </motion.button>
+            )
+          })}
         </motion.div>
       </div>
 
@@ -481,63 +572,132 @@ function Trabajos() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[2000] flex items-center justify-center bg-[#08090c]/97 backdrop-blur-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label={lightbox.title}
+            className="fixed inset-0 z-[2000] bg-[#08090c]/97 backdrop-blur-2xl"
             onClick={() => setLightbox(null)}
           >
-            <button
-              onClick={() => setLightbox(null)}
-              aria-label="Cerrar"
-              className="absolute top-5 right-5 w-11 h-11 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-white/20 hover:border-white/30 transition-all z-10 text-lg"
-            >
-              ✕
-            </button>
-
-            <button
-              onClick={prevImage}
-              aria-label="Anterior"
-              className="absolute left-3 md:left-7 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-white/20 hover:border-aqua-400/40 transition-all z-10"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-            </button>
-
-            <button
-              onClick={nextImage}
-              aria-label="Siguiente"
-              className="absolute right-3 md:right-7 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-white/20 hover:border-aqua-400/40 transition-all z-10"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-            </button>
-
-            <motion.div
-              key={lightbox.src}
-              initial={{ scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.92, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative max-w-[88vw] max-h-[88vh] flex flex-col items-center"
-              onClick={e => e.stopPropagation()}
-            >
-              <img
-                src={lightbox.src}
-                alt={lightbox.alt}
-                className="max-w-full max-h-[72vh] object-contain rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.6)]"
-              />
-              <div className="mt-4 text-center px-4">
-                <span className="inline-block text-[0.65rem] font-bold uppercase tracking-[0.15em] text-aqua-400 bg-[rgba(61,209,204,0.12)] border border-[rgba(61,209,204,0.2)] px-3 py-1 rounded-full mb-2">{lightbox.tag}</span>
-                <h3 className="font-display text-lg md:text-xl text-gray-100 font-semibold">{lightbox.title}</h3>
-                <p className="text-sm text-gray-400 mt-1">{lightbox.desc}</p>
-                <div className="flex items-center justify-center gap-1.5 mt-4">
-                  {filtered.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => { setCurrentIndex(idx); setLightbox(filtered[idx]) }}
-                      className={`rounded-full transition-all duration-200 ${idx === currentIndex ? 'w-5 h-1.5 bg-aqua-400' : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/40'}`}
-                    />
-                  ))}
-                </div>
-                <p className="text-xs text-gray-600 mt-2">{currentIndex + 1} / {filtered.length} · ← → para navegar</p>
+            <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 md:p-6 pointer-events-none">
+              <div className="flex items-center gap-2 pointer-events-auto" onClick={e => e.stopPropagation()}>
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-aqua-400 bg-black/50 backdrop-blur-md border border-aqua-400/25 px-2.5 py-1.5 rounded-md">
+                  CAM-{lightboxCamId}
+                </span>
+                <span className="flex items-center gap-1.5 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-red-400 bg-black/50 backdrop-blur-md border border-red-400/25 px-2 py-1 rounded-md">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  LIVE
+                </span>
+                <span className="hidden md:inline-block font-mono text-[0.55rem] uppercase tracking-[0.18em] text-gray-400 bg-black/50 backdrop-blur-md border border-white/10 px-2 py-1 rounded-md">
+                  {String(currentIndex + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
+                </span>
               </div>
-            </motion.div>
+              <button
+                onClick={() => setLightbox(null)}
+                aria-label="Cerrar"
+                className="pointer-events-auto w-10 h-10 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-red-500/20 hover:border-red-400/40 transition-all"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center px-4 md:px-12 pt-20 pb-36 lg:pb-28" onClick={e => e.stopPropagation()}>
+              <button
+                onClick={prevImage}
+                aria-label="Anterior"
+                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-aqua-400/20 hover:border-aqua-400/40 transition-all z-10"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+              </button>
+              <button
+                onClick={nextImage}
+                aria-label="Siguiente"
+                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 border border-white/15 rounded-full text-white flex items-center justify-center hover:bg-aqua-400/20 hover:border-aqua-400/40 transition-all z-10"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+              </button>
+
+              <div className="grid lg:grid-cols-[1fr_320px] gap-6 max-w-[1300px] w-full h-full items-center">
+                <motion.div
+                  key={lightbox.src}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.25 }}
+                  className="relative flex items-center justify-center min-h-0 h-full"
+                >
+                  <div className="relative">
+                    <img
+                      src={lightbox.src}
+                      alt={lightbox.alt}
+                      className="max-w-full max-h-[60vh] lg:max-h-[78vh] object-contain rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.7)]"
+                    />
+                    <CornerBrackets tone="white" />
+                  </div>
+                </motion.div>
+
+                <motion.aside
+                  key={`info-${lightbox.src}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.08 }}
+                  className="hidden lg:flex flex-col gap-5 self-center bg-white/[0.03] border border-white/[0.06] rounded-xl p-6 backdrop-blur-md"
+                >
+                  <div>
+                    <span className="font-mono text-[0.58rem] uppercase tracking-[0.22em] text-aqua-400/70">CATEGORÍA</span>
+                    <p className="text-aqua-400 font-semibold mt-1 font-display">{lightbox.tag}</p>
+                  </div>
+                  <div className="h-px bg-white/10" />
+                  <div>
+                    <span className="font-mono text-[0.58rem] uppercase tracking-[0.22em] text-gray-500">TÍTULO</span>
+                    <h3 className="font-display text-xl text-gray-100 font-semibold mt-1 leading-tight">{lightbox.title}</h3>
+                  </div>
+                  <div>
+                    <span className="font-mono text-[0.58rem] uppercase tracking-[0.22em] text-gray-500">DESCRIPCIÓN</span>
+                    <p className="text-sm text-gray-400 mt-1 leading-relaxed">{lightbox.desc}</p>
+                  </div>
+                  <div className="h-px bg-white/10" />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-black/30 rounded-lg p-3 border border-white/[0.04]">
+                      <span className="font-mono text-[0.5rem] uppercase tracking-[0.18em] text-gray-500">RESOLUCIÓN</span>
+                      <p className="text-aqua-400 font-mono text-sm mt-1 font-bold">4K · HD</p>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 border border-white/[0.04]">
+                      <span className="font-mono text-[0.5rem] uppercase tracking-[0.18em] text-gray-500">ESTADO</span>
+                      <p className="text-emerald-400 font-mono text-sm mt-1 font-bold flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                        ACTIVA
+                      </p>
+                    </div>
+                  </div>
+                  <div className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-gray-600 border-t border-white/[0.06] pt-3">
+                    ← → · ESC para salir
+                  </div>
+                </motion.aside>
+              </div>
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-4 pt-2 pointer-events-none">
+              <div className="lg:hidden text-center mb-3 pointer-events-auto" onClick={e => e.stopPropagation()}>
+                <span className="inline-block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-aqua-400 bg-aqua-400/10 border border-aqua-400/25 px-2.5 py-0.5 rounded-md mb-1.5">{lightbox.tag}</span>
+                <h3 className="font-display text-base text-gray-100 font-semibold leading-tight">{lightbox.title}</h3>
+                <p className="text-xs text-gray-500 mt-0.5 line-clamp-2 max-w-[420px] mx-auto">{lightbox.desc}</p>
+              </div>
+
+              <div className="flex items-center justify-center gap-1.5 pointer-events-auto overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" onClick={e => e.stopPropagation()}>
+                {filtered.map((item, idx) => (
+                  <button
+                    key={item.src}
+                    onClick={() => { setCurrentIndex(idx); setLightbox(item) }}
+                    aria-label={`Ir a ${item.title}`}
+                    className={`shrink-0 rounded-md overflow-hidden border-2 transition-all duration-200 ${idx === currentIndex ? 'w-14 h-14 border-aqua-400 shadow-[0_0_14px_rgba(61,209,204,0.4)]' : 'w-10 h-10 border-white/10 opacity-50 hover:opacity-100 hover:border-white/30'}`}
+                  >
+                    <img src={item.src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                  </button>
+                ))}
+              </div>
+              <p className="text-center font-mono text-[0.55rem] uppercase text-gray-600 mt-2 tracking-[0.2em] lg:hidden">
+                {String(currentIndex + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')} · ← → · ESC
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
