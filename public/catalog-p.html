@@ -131,6 +131,14 @@
 <!-- Filter Hub -->
 <section class="flex flex-col md:flex-row justify-between items-end gap-6 flex-wrap">
 <div class="space-y-4 w-full md:w-auto">
+<label class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Marcas</label>
+<div class="flex gap-2 flex-wrap">
+<button class="brand-btn px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-headline text-xs font-bold tracking-widest transition-all uppercase active:scale-95" data-brand="all">Todas</button>
+<button class="brand-btn px-4 py-2 bg-surface-container-low text-slate-400 rounded-lg font-headline text-xs font-bold tracking-widest transition-all uppercase active:scale-95 hover:bg-surface-container-high" data-brand="IMOU">Imou</button>
+<button class="brand-btn px-4 py-2 bg-surface-container-low text-slate-400 rounded-lg font-headline text-xs font-bold tracking-widest transition-all uppercase active:scale-95 hover:bg-surface-container-high" data-brand="EZVIZ">Ezviz</button>
+</div>
+</div>
+<div class="space-y-4 w-full md:w-auto">
 <label class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Categorías</label>
 <div class="relative group">
 <select class="appearance-none bg-surface-container-low border-none text-on-surface py-3 px-6 pr-12 rounded-lg font-headline text-sm tracking-wide focus:ring-1 focus:ring-primary-container w-full md:w-64 transition-all cursor-pointer" id="category-filter">
@@ -142,7 +150,7 @@
 <label class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Búsqueda de Producto</label>
 <div class="relative flex gap-2 w-full">
 <div class="relative group flex-grow">
-<input class="bg-surface-container-low border-none text-on-surface py-3 pl-12 pr-6 rounded-lg font-headline text-sm tracking-wide focus:ring-1 focus:ring-primary-container w-full transition-all outline-none placeholder:text-slate-600 uppercase" id="search-input" placeholder="BUSCAR PRODUCTO..." type="text" onkeypress="if(event.key === 'Enter') applyFilters()"/>
+<input class="bg-surface-container-low border-none text-on-surface py-3 pl-12 pr-6 rounded-lg font-headline text-sm tracking-wide focus:ring-1 focus:ring-primary-container w-full transition-all outline-none placeholder:text-slate-600 uppercase" id="search-input" placeholder="BUSCAR PRODUCTO..." type="text"/>
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 group-focus-within:text-primary-container transition-colors">search</span>
 </div>
 <button class="flex items-center justify-center px-6 py-3 bg-primary-container text-on-primary-fixed rounded-lg font-headline text-sm font-bold tracking-widest hover:shadow-[0_0_15px_rgba(61,209,204,0.4)] transition-all uppercase active:scale-95" onclick="applyFilters()">Buscar</button>
@@ -152,8 +160,10 @@
 </button>
 </div>
 <div class="hidden md:block text-right">
-<p class="text-[10px] font-bold tracking-[0.2em] text-primary-container uppercase">Estado Operativo</p>
-<p class="text-sm font-headline text-slate-400">Obteniendo Datos...</p>
+<p class="text-[10px] font-bold tracking-[0.2em] text-primary-container uppercase">Filtrando</p>
+<p class="text-sm font-headline text-slate-400" id="brand-label">TODAS LAS MARCAS</p>
+<p class="text-[10px] font-bold tracking-[0.2em] text-primary-container uppercase mt-2">Estado Operativo</p>
+<p class="text-sm font-headline text-slate-400" id="status-text">Obteniendo Datos...</p>
 </div>
 </section>
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-8" id="product-grid">
@@ -210,37 +220,21 @@
 <!-- Overlay for Cart -->
 <div class="fixed inset-0 bg-background/60 backdrop-blur-sm z-[55] hidden opacity-0 transition-opacity duration-500" id="overlay" onclick="toggleCart()"></div>
 <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/19ZnohOMMcmcAUcaC_Lmy14JHc2Y3jS7tnYeRaSKkebc/gviz/tq?tqx=out:csv&sheet=PRODUCTOS';
-        let products = [];
+        const SHEET_ID = '1lIcsneWegbqgtELOMuq9if7L--fmtB0W4h7ea9suj1s';
+        const GID = '1011348531';
+        const IMOU_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&range=A3:E26`;
+        const EZVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&range=A28:E36`;
+        let allProducts = [];
         let cart = [];
         let searchTerm = '';
         let currentCategory = 'all';
+        let currentBrand = 'all';
 
-        // Función para corregir URLs de imagen (absolutas y HTTPS)
-        function fixImageUrl(url) {
-            if (!url || url.trim() === '') return null;
-            let cleanUrl = url.trim();
-            // Si es una URL relativa (ej. "/imagen.jpg"), la convertimos a absoluta
-            // (cambia la base por la que corresponda a tu servidor)
-            if (cleanUrl.startsWith('/')) {
-                cleanUrl = window.location.origin + cleanUrl;
-            }
-            // Forzar HTTPS si es HTTP
-            if (cleanUrl.startsWith('http://')) {
-                cleanUrl = cleanUrl.replace('http://', 'https://');
-            }
-            // Si no tiene protocolo, asumimos HTTPS (puede fallar, pero lo intentamos)
-            if (!cleanUrl.startsWith('http')) {
-                cleanUrl = 'https://' + cleanUrl;
-            }
-            return cleanUrl;
-        }
-
-        function parseCSV(csv) {
+        function parseCSV(csv, brand) {
             const lines = csv.split(/\r?\n/);
             const result = [];
             
-            for (let i = 1; i < lines.length; i++) {
+            for (let i = 0; i < lines.length; i++) {
                 const row = lines[i];
                 if (!row.trim()) continue;
 
@@ -261,13 +255,17 @@
                 }
                 values.push(current.trim().replace(/^"|"$/g, ''));
 
-                if (values.length > 5) {
+                if (values.length >= 5) {
+                    const name = values[1] || '';
+                    const desc = values[2] || '';
+                    const priceRaw = values[4] || '';
+                    const category = desc.split('|').length > 3 ? desc.split('|')[0].trim() : 'General';
                     result.push({
-                        "Producto": values[0] || '',
-                        "Imagen": values[7] || '',
-                        "Categoria": values[8] || '',
-                        "Activo": values[9] || '',
-                        "Precio de venta": values[10] || ''
+                        Producto: name,
+                        Descripcion: desc,
+                        Categoria: category,
+                        Precio: priceRaw,
+                        Marca: brand
                     });
                 }
             }
@@ -276,15 +274,24 @@
 
         async function fetchProducts() {
             try {
-                const response = await fetch(SHEET_URL);
-                const csvText = await response.text();
-                const rawData = parseCSV(csvText);
+                const [imouRes, ezvizRes] = await Promise.all([
+                    fetch(IMOU_URL),
+                    fetch(EZVIZ_URL)
+                ]);
                 
-                products = rawData.filter(p => p.Activo.toLowerCase() === "si");
+                const imouCsv = await imouRes.text();
+                const ezvizCsv = await ezvizRes.text();
+                
+                const imouProducts = parseCSV(imouCsv, 'IMOU');
+                const ezvizProducts = parseCSV(ezvizCsv, 'EZVIZ');
+                
+                allProducts = [...imouProducts, ...ezvizProducts];
 
-                renderProducts(products);
-                updateCategories(products);
+                document.getElementById('status-text').textContent = `${allProducts.length} Productos Cargados`;
+                renderProducts(allProducts);
+                updateCategories(allProducts);
                 setupSearch();
+                setupBrandFilter();
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('product-grid').innerHTML = `
@@ -298,10 +305,11 @@
         }
 
         function applyFilters() {
-            const filtered = products.filter(p => {
+            const filtered = allProducts.filter(p => {
+                const matchesBrand = currentBrand === 'all' || p.Marca === currentBrand;
                 const matchesCategory = currentCategory === 'all' || p.Categoria === currentCategory;
                 const matchesSearch = p.Producto.toLowerCase().includes(searchTerm.toLowerCase());
-                return matchesCategory && matchesSearch;
+                return matchesBrand && matchesCategory && matchesSearch;
             });
             renderProducts(filtered);
         }
@@ -316,6 +324,27 @@
             }
         }
 
+        function setupBrandFilter() {
+            const brandBtns = document.querySelectorAll('.brand-btn');
+            brandBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    brandBtns.forEach(b => b.classList.remove('bg-primary-container', 'text-on-primary-fixed'));
+                    brandBtns.forEach(b => b.classList.add('bg-surface-container-low', 'text-slate-400'));
+                    btn.classList.remove('bg-surface-container-low', 'text-slate-400');
+                    btn.classList.add('bg-primary-container', 'text-on-primary-fixed');
+                    
+                    const brandName = btn.getAttribute('data-brand');
+                    const brandLabel = document.getElementById('brand-label');
+                    if (brandName === 'IMOU') brandLabel.textContent = 'Imou';
+                    else if (brandName === 'EZVIZ') brandLabel.textContent = 'Ezviz';
+                    else brandLabel.textContent = 'TODAS LAS MARCAS';
+                    
+                    currentBrand = brandName;
+                    applyFilters();
+                });
+            });
+        }
+
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             if (items.length === 0) {
@@ -324,40 +353,34 @@
             }
             
             grid.innerHTML = items.map(p => {
-                const priceStr = p["Precio de venta"].toString().replace(/[^0-9]/g, "");
-                const price = parseFloat(priceStr) || 0;
-                let rawImage = p.Imagen || '';
-                const fixedImage = fixImageUrl(rawImage);
+                const priceStr = p.Precio.toString().replace(/[^0-9]/g, "");
+                const price = (parseFloat(priceStr) || 0) * 1.3;
+                const brand = p.Marca || '';
                 const defaultImage = 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?q=80&w=800&auto=format&fit=crop';
-                const finalImage = fixedImage || defaultImage;
-
-                // Depuración: ver en consola qué URL se está intentando
-                console.log(`Imagen para ${p.Producto}: ${finalImage}`);
 
                 return `
                 <div class="group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:bg-surface-container-high relative flex flex-col border border-white/5 hover:border-primary-container/30">
 <div class="aspect-square relative overflow-hidden bg-surface-container-lowest">
-<img alt="${p.Producto}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" 
-     src="${finalImage}" 
-     onerror="this.onerror=null; this.src='${defaultImage}';">
-<div class="absolute top-4 left-4">
+<div class="w-full h-full flex items-center justify-center bg-surface-container-lowest">
+<span class="material-symbols-outlined text-6xl text-slate-700">${brand === 'IMOU' ? 'videocam' : 'security'}</span>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
 <span class="px-2 py-1 bg-background/80 backdrop-blur-md text-[9px] font-bold text-primary-container uppercase tracking-widest rounded border border-primary-container/20">
-                                ${p.Categoria || 'SIN CATEGORÍA'}
-                            </span>
+${brand}
+</span>
 </div>
 </div>
 <div class="p-3 md:p-6 flex flex-col flex-grow gap-3 md:gap-4">
 <div class="space-y-1">
 <h3 class="font-headline text-sm md:text-lg font-bold text-primary tracking-tight leading-tight line-clamp-2">${p.Producto}</h3>
-<!-- Cambio: "Protocolo" por "Tipo" -->
-<p class="text-[9px] md:text-[10px] text-slate-500 font-mono uppercase tracking-widest">Tipo: ${p.Categoria || 'Standard'}</p>
+<p class="text-[9px] md:text-[10px] text-slate-500 font-mono uppercase tracking-widest line-clamp-2">${p.Descripcion || ''}</p>
 </div>
 <div class="mt-auto flex justify-between items-center gap-2">
 <div class="flex flex-col flex-shrink">
 <span class="text-[8px] text-slate-500 uppercase tracking-tighter">Precio</span>
 <span class="text-base md:text-2xl font-headline font-bold text-primary-container">$${price.toLocaleString()}</span>
 </div>
-<button class="p-2 md:p-3 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-fixed rounded-lg transition-all active:scale-90 flex items-center justify-center flex-shrink-0 group/btn" onclick="addToCart('${p.Producto.replace(/'/g, '')}', ${price}, '${finalImage}')">
+<button class="p-2 md:p-3 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-fixed rounded-lg transition-all active:scale-90 flex items-center justify-center flex-shrink-0 group/btn" onclick="addToCart('${p.Producto.replace(/'/g, '')}', ${price}, '${defaultImage}')">
 <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
 <span class="text-[10px] font-bold uppercase tracking-widest hidden group-hover/btn:block">Agregar</span>
 </button>
@@ -503,12 +526,21 @@
 function clearFilters() {
     searchTerm = '';
     currentCategory = 'all';
+    currentBrand = 'all';
     
     const searchInput = document.getElementById('search-input');
     const categoryFilter = document.getElementById('category-filter');
     
     if (searchInput) searchInput.value = '';
     if (categoryFilter) categoryFilter.value = 'all';
+    
+    document.querySelectorAll('.brand-btn').forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-fixed');
+        b.classList.add('bg-surface-container-low', 'text-slate-400');
+    });
+    document.querySelector('.brand-btn[data-brand="all"]').classList.remove('bg-surface-container-low', 'text-slate-400');
+    document.querySelector('.brand-btn[data-brand="all"]').classList.add('bg-primary-container', 'text-on-primary-fixed');
+    document.getElementById('brand-label').textContent = 'TODAS LAS MARCAS';
     
     applyFilters();
 }
