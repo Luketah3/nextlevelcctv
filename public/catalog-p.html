@@ -258,7 +258,7 @@
                 if (values.length >= 5) {
                     const name = values[1] || '';
                     const desc = values[2] || '';
-                    const priceRaw = values[4] || '';
+                    const priceRaw = values[3] || '';
                     const category = desc.split('|').length > 3 ? desc.split('|')[0].trim() : 'General';
                     result.push({
                         Producto: name,
@@ -353,8 +353,8 @@
             }
             
             grid.innerHTML = items.map(p => {
-                const priceStr = p.Precio.toString().replace(/\./g, '').replace(',', '.');
-                const price = (parseFloat(priceStr) || 0) * 1.35;
+                const priceStr = p.Precio.toString().replace('.', '@').replace(',', '.').replace('@', '');
+                const price = (parseFloat(priceStr) || 0) * 1500 * 1.35;
                 const brand = p.Marca || '';
                 const defaultImage = 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?q=80&w=800&auto=format&fit=crop';
 
