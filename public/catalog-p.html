@@ -345,6 +345,43 @@
             });
         }
 
+        const productImages = {
+            'cue 2 1080': '/img/products/cue2c.webp',
+            'cue 2 3mpx': '/img/products/cue2c.webp',
+            'ranger 2c 2mpx': '/img/products/ranger2c.webp',
+            'ranger 2c 4mpx': '/img/products/ranger2c.webp',
+            'ranger mini k2mp - 3h1we': '/img/products/rangemini.jpg',
+            'ranger dual 10mp': '/img/products/cruiserdual.webp',
+            'imou rex a46lp -d': '/img/products/rex4mp.png',
+            'bullet 2c 3mpx': '/img/products/bullet2c.webp',
+            'bullet 2c 5mpx': '/img/products/bullet2c.webp',
+            'bullet 2e 3mpx': '/img/products/bullet2c.webp',
+            'bullet 2e 5mpx': '/img/products/bullet2c.webp',
+            'dk7 2mpx 1080': '/img/products/dk7.jpg',
+            'bulb cam  2c 3mp (foco)': '/img/products/bulbcam2c.jpg',
+            'cruiser 3mpx': '/img/products/cruiser3mp.webp',
+            'cruiser 5mpx': '/img/products/cruiser5mp.webp',
+            'cruiser dual 6mpx': '/img/products/cruiserdual.webp',
+            'cruiser dual 10mpx': '/img/products/cruiserdual.webp',
+            'cruiser triple 11mpx': '/img/products/cruisertriple.webp',
+            'aov pt 4g 5mp': '/img/products/aovpt.webp',
+            'router hr300': '/img/products/hr300.webp',
+            'nvr1104hs-w-s2 4ch': '/img/products/nvr4ch.webp',
+            'nvr1108hs-w-s2 8ch': '/img/products/nvr8ch.webp',
+            'mou nvr n10w - 8aoe': '/img/products/nvr10ch.webp',
+            'nvr n110 - 8a0e ( 10 ch)': '/img/products/nvr10ch.webp',
+            'h1c 1080': '/img/products/h1c.png',
+            'h3c 1080': '/img/products/h3c.webp',
+            'h3c 1080 f/color': '/img/products/h3ccolor.jpg',
+            'c6n 1080': '/img/products/c6n.jpg',
+            'h8c 1080': '/img/products/h8c.jpg',
+            'h8c 1080 4g': '/img/products/h8c4g.jpg',
+            'h9c dual 5mpx+ 5mpx': '/img/products/h9cdual.jpg',
+            'eb8 4g c/panel solar': '/img/products/eb84g.jpg',
+            'eb3 c/ panel solar': '/img/products/eb3.webp',
+        };
+        function getProductImage(name) { return productImages[(name || '').trim().toLowerCase()] || null; }
+
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             if (items.length === 0) {
@@ -355,13 +392,13 @@
             grid.innerHTML = items.map(p => {
                 const price = (parseFloat(p.Precio) || 0) * 1500 * 1.35;
                 const brand = p.Marca || '';
-                const defaultImage = 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?q=80&w=800&auto=format&fit=crop';
+                const localImage = getProductImage(p.Producto);
 
                 return `
                 <div class="group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:bg-surface-container-high relative flex flex-col border border-white/5 hover:border-primary-container/30">
 <div class="aspect-square relative overflow-hidden bg-surface-container-lowest">
 <div class="w-full h-full flex items-center justify-center bg-surface-container-lowest">
-<span class="material-symbols-outlined text-6xl text-slate-700">${brand === 'IMOU' ? 'videocam' : 'security'}</span>
+${localImage ? `<img src="${localImage}" alt="${p.Producto}" class="w-full h-full object-contain p-4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="w-full h-full flex items-center justify-center hidden"><span class="material-symbols-outlined text-6xl text-slate-700">${brand === 'IMOU' ? 'videocam' : 'security'}</span></div>` : `<span class="material-symbols-outlined text-6xl text-slate-700">${brand === 'IMOU' ? 'videocam' : 'security'}</span>`}
 </div>
 <div class="absolute top-4 left-4 flex gap-2">
 <span class="px-2 py-1 bg-background/80 backdrop-blur-md text-[9px] font-bold text-primary-container uppercase tracking-widest rounded border border-primary-container/20">
@@ -379,7 +416,7 @@ ${brand}
 <span class="text-[8px] text-slate-500 uppercase tracking-tighter">Precio</span>
 <span class="text-base md:text-2xl font-headline font-bold text-primary-container">$${price.toLocaleString()}</span>
 </div>
-<button class="p-2 md:p-3 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-fixed rounded-lg transition-all active:scale-90 flex items-center justify-center flex-shrink-0 group/btn" onclick="addToCart('${p.Producto.replace(/'/g, '')}', ${price}, '${defaultImage}')">
+<button class="p-2 md:p-3 bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-fixed rounded-lg transition-all active:scale-90 flex items-center justify-center flex-shrink-0 group/btn" onclick="addToCart('${p.Producto.replace(/'/g, '')}', ${price}, '${localImage || ''}')">
 <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
 <span class="text-[10px] font-bold uppercase tracking-widest hidden group-hover/btn:block">Agregar</span>
 </button>
